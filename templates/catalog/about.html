@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+
+{% block title %}درباره ما | Aras 3D{% endblock %}
+
+{% block content %}
+
+<!-- معرفی مجموعه -->
+<section class="page-banner">
+    <div class="container">
+        <span class="section-label">درباره Aras 3D</span>
+
+        <h1 class="page-title">
+            ایده‌ها را به دنیای واقعی نزدیک‌تر می‌کنیم
+        </h1>
+
+        <p class="page-description">
+            ما در Aras 3D بر معرفی محصولات تولیدشده با فناوری چاپ سه‌بعدی
+            تمرکز داریم؛ محصولاتی که حاصل ترکیب طراحی، خلاقیت و فناوری هستند.
+        </p>
+    </div>
+</section>
+
+<!-- معرفی فعالیت -->
+<section class="section">
+    <div class="container about-intro">
+
+        <div class="about-intro-content">
+            <span class="section-label">داستان ما</span>
+
+            <h2 class="section-title">
+                آشنایی با دنیای Aras 3D
+            </h2>
+
+            <p>
+                چاپ سه‌بعدی راهی برای تبدیل طرح‌های دیجیتال به محصولات
+                واقعی است. این فناوری امکان ساخت شکل‌ها و قطعات متنوعی را
+                فراهم می‌کند و فرصت‌های تازه‌ای برای طراحی و تولید به وجود
+                می‌آورد.
+            </p>
+
+            <p>
+                Aras 3D فضایی برای معرفی محصولات چاپ سه‌بعدی، نمایش تصاویر
+                و ارائه اطلاعات مربوط به هر محصول است تا بتوانید با شناخت
+                بهتر، گزینه متناسب با نیاز خود را پیدا کنید.
+            </p>
+
+            <a href="{% url 'catalog:product_list' %}"
+               class="button button-primary">
+                مشاهده محصولات
+            </a>
+        </div>
+
+        <div class="about-highlight">
+            <span class="about-highlight-mark">ARAS <strong>3D</strong></span>
+
+            <div class="about-highlight-line"></div>
+
+            <h3>از ایده تا محصول</h3>
+
+            <p>
+                آشنایی با محصولاتی که فناوری و خلاقیت را در کنار هم قرار می‌دهند.
+            </p>
+        </div>
+
+    </div>
+</section>
+
+<!-- ویژگی‌های مجموعه -->
+<section class="section benefits-section">
+    <div class="container">
+
+        <div class="section-heading">
+            <div class="section-heading-content">
+                <span class="section-label">نگاه ما</span>
+
+                <h2 class="section-title">
+                    آنچه در Aras 3D دنبال می‌کنیم
+                </h2>
+
+                <p class="section-description">
+                    تلاش می‌کنیم اطلاعات محصولات را به شکلی روشن و کاربردی
+                    در اختیار بازدیدکنندگان قرار دهیم.
+                </p>
+            </div>
+        </div>
+
+        <div class="benefits-grid">
+
+            <article class="benefit-card">
+                <span class="benefit-number">01</span>
+
+                <h3>معرفی شفاف محصولات</h3>
+
+                <p>
+                    نمایش تصاویر و ارائه توضیحات برای شناخت بهتر محصولات
+                    و کاربردهای آن‌ها.
+                </p>
+            </article>
+
+            <article class="benefit-card">
+                <span class="benefit-number">02</span>
+
+                <h3>توجه به جزئیات</h3>
+
+                <p>
+                    فراهم‌کردن اطلاعات مرتبط با ویژگی‌ها و مشخصات محصولات
+                    تا انتخاب آگاهانه‌تری داشته باشید.
+                </p>
+            </article>
+
+            <article class="benefit-card">
+                <span class="benefit-number">03</span>
+
+                <h3>ارتباط مستقیم</h3>
+
+                <p>
+                    فراهم‌کردن راه ارتباطی برای پرسش درباره محصولات،
+                    دریافت اطلاعات بیشتر و بررسی امکان سفارش.
+                </p>
+            </article>
+
+        </div>
+    </div>
+</section>
+
+<!-- دعوت به ارتباط -->
+<section class="contact-banner">
+    <div class="container contact-banner-container">
+
+        <div>
+            <span class="section-label">همراه شما هستیم</span>
+
+            <h2>درباره محصولات ما سؤالی دارید؟</h2>
+
+            <p>
+                برای دریافت اطلاعات بیشتر درباره محصولات و بررسی امکان
+                سفارش، با ما در ارتباط باشید.
+            </p>
+        </div>
+
+        <a href="{% url 'catalog:contact' %}"
+           class="button button-primary">
+            ارتباط با ما
+        </a>
+
+    </div>
+</section>
+
+{% endblock %}

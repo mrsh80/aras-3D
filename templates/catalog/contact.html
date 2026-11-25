@@ -1,0 +1,290 @@
+{% extends "base.html" %}
+
+{% block title %}
+تماس با ما | Aras 3D
+{% endblock %}
+
+{% block content %}
+
+<section class="contact-page">
+
+    <div class="container">
+
+        <!-- سربرگ صفحه -->
+        <div class="contact-hero">
+
+            <span class="section-label">
+                CONTACT US
+            </span>
+
+            <h1>
+                با ما در ارتباط باشید
+            </h1>
+
+            <p>
+                اگر درباره محصولات، سفارش ساخت محصول سفارشی یا
+                همکاری با Aras 3D سؤالی دارید، پیام خود را برای ما ارسال کنید.
+            </p>
+
+        </div>
+
+
+        <!-- محتوای اصلی -->
+        <div class="contact-layout">
+
+            <!-- فرم تماس -->
+            <div class="contact-form-card">
+
+                <div class="contact-card-heading">
+
+                    <h2>
+                        ارسال پیام
+                    </h2>
+
+                    <p>
+                        اطلاعات زیر را تکمیل کنید.
+                    </p>
+
+                </div>
+
+
+                <!-- پیام موفقیت -->
+                {% if success %}
+
+                    <div class="contact-success" role="status">
+
+                        <strong>
+                            پیام شما با موفقیت ثبت شد.
+                        </strong>
+
+                        <p>
+                            از اینکه با Aras 3D در ارتباط هستید، سپاسگزاریم.
+                        </p>
+
+                    </div>
+
+                {% endif %}
+
+
+                <!-- خطاهای کلی فرم -->
+                {% if form.non_field_errors %}
+
+                    <div class="contact-error" role="alert">
+
+                        {% for error in form.non_field_errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+
+                    </div>
+
+                {% endif %}
+
+
+                <form method="post" class="contact-form">
+
+                    {% csrf_token %}
+
+
+                    <!-- فیلد مخفی ضد هرزنامه -->
+                    <div class="honeypot-field" aria-hidden="true">
+                        <label for="{{ form.website.id_for_label }}">
+                            این قسمت را خالی بگذارید
+                        </label>
+
+                        {{ form.website }}
+                    </div>
+
+
+                    <!-- نام -->
+                    <div class="form-group">
+
+                        <label
+                            for="{{ form.name.id_for_label }}"
+                            class="form-label"
+                        >
+                            {{ form.name.label }}
+                        </label>
+
+                        {{ form.name }}
+
+                        {% for error in form.name.errors %}
+                            <p class="field-error">{{ error }}</p>
+                        {% endfor %}
+
+                    </div>
+
+
+                    <!-- شماره تماس -->
+                    <div class="form-group">
+
+                        <label
+                            for="{{ form.phone.id_for_label }}"
+                            class="form-label"
+                        >
+                            {{ form.phone.label }}
+                        </label>
+
+                        {{ form.phone }}
+
+                        {% for error in form.phone.errors %}
+                            <p class="field-error">{{ error }}</p>
+                        {% endfor %}
+
+                    </div>
+
+
+                    <!-- ایمیل -->
+                    <div class="form-group">
+
+                        <label
+                            for="{{ form.email.id_for_label }}"
+                            class="form-label"
+                        >
+                            {{ form.email.label }}
+                        </label>
+
+                        {{ form.email }}
+
+                        {% for error in form.email.errors %}
+                            <p class="field-error">{{ error }}</p>
+                        {% endfor %}
+
+                    </div>
+
+
+                    <!-- موضوع پیام -->
+                    <div class="form-group">
+
+                        <label
+                            for="{{ form.subject.id_for_label }}"
+                            class="form-label"
+                        >
+                            {{ form.subject.label }}
+                        </label>
+
+                        {{ form.subject }}
+
+                        {% for error in form.subject.errors %}
+                            <p class="field-error">{{ error }}</p>
+                        {% endfor %}
+
+                    </div>
+
+
+                    <!-- متن پیام -->
+                    <div class="form-group">
+
+                        <label
+                            for="{{ form.message.id_for_label }}"
+                            class="form-label"
+                        >
+                            {{ form.message.label }}
+                        </label>
+
+                        {{ form.message }}
+
+                        {% for error in form.message.errors %}
+                            <p class="field-error">{{ error }}</p>
+                        {% endfor %}
+
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        class="button button-primary contact-submit"
+                    >
+                        ارسال پیام
+                    </button>
+
+                </form>
+
+            </div>
+
+
+            <!-- اطلاعات تماس -->
+            <aside class="contact-info-card">
+
+                <span class="section-label">
+                    LET'S TALK
+                </span>
+
+                <h2>
+                    چطور می‌توانیم کمکتان کنیم؟
+                </h2>
+
+                <p>
+                    برای پرسش درباره محصولات، اطلاع از امکان ساخت سفارشی
+                    یا بررسی پیشنهادهای همکاری، از فرم تماس استفاده کنید.
+                </p>
+
+
+                <div class="contact-info-item">
+
+                    <span class="contact-info-icon">
+                        01
+                    </span>
+
+                    <div>
+                        <h3>مشاوره محصول</h3>
+
+                        <p>
+                            درباره ویژگی‌ها، جنس و ابعاد محصولات سؤال کنید.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="contact-info-item">
+
+                    <span class="contact-info-icon">
+                        02
+                    </span>
+
+                    <div>
+                        <h3>ساخت سفارشی</h3>
+
+                        <p>
+                            نیاز خود را توضیح دهید تا امکان ساخت محصول بررسی شود.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="contact-info-item">
+
+                    <span class="contact-info-icon">
+                        03
+                    </span>
+
+                    <div>
+                        <h3>همکاری</h3>
+
+                        <p>
+                            پیشنهادهای همکاری خود را با ما در میان بگذارید.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="contact-note">
+
+                    <p>
+                        لطفاً شماره تماس خود را به‌درستی وارد کنید تا در صورت
+                        نیاز امکان پیگیری پیام شما وجود داشته باشد.
+                    </p>
+
+                </div>
+
+            </aside>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environments
+venv/
+.venv/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Django generated files
+staticfiles/
+*.log
+
+# Development tools
+.vscode/
+.idea/
+
+# Operating system
+.DS_Store
+Thumbs.db
+# Database
+db.sqlite3
+db.sqlite3-*
+
+# Backups
+backups/

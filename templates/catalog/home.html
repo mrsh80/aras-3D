@@ -1,0 +1,317 @@
+{% extends "base.html" %}
+
+{% block title %}
+Aras 3D | محصولات چاپ سه‌بعدی
+{% endblock %}
+
+{% block content %}
+
+<section class="hero">
+    <div class="container hero-container">
+
+        <div class="hero-content">
+            <span class="section-label">
+                دنیای چاپ سه‌بعدی
+            </span>
+
+            <h1>
+                ایده‌های شما،
+                <span>با چاپ سه‌بعدی جان می‌گیرند.</span>
+            </h1>
+
+            <p>
+                در Aras 3D مجموعه‌ای از محصولات تولیدشده با فناوری
+                چاپ سه‌بعدی را مشاهده کنید. از طرح‌های کاربردی تا
+                محصولات خاص؛ برای آشنایی با جزئیات هر محصول همراه ما باشید.
+            </p>
+
+            <div class="hero-actions">
+                <a href="{% url 'catalog:product_list' %}" class="button button-primary">
+                    مشاهده محصولات
+                </a>
+
+                <a href="{% url 'catalog:about' %}" class="button button-outline">
+                    آشنایی با ما
+                </a>
+            </div>
+
+            <div class="hero-note">
+                <span class="hero-note-dot"></span>
+                <span>محصولات متنوع، طراحی خلاقانه و تولید دقیق</span>
+            </div>
+        </div>
+
+        <div class="hero-visual">
+            <div class="hero-visual-glow"></div>
+
+            <div class="hero-visual-card">
+                <div class="hero-visual-top">
+                    <span>ARAS 3D</span>
+                    <span>3D PRINTING</span>
+                </div>
+
+                <div class="hero-visual-art" aria-hidden="true">
+                    <div class="art-ring art-ring-one"></div>
+                    <div class="art-ring art-ring-two"></div>
+                    <div class="art-core"></div>
+                </div>
+
+                <div class="hero-visual-bottom">
+                    <span>طراحی</span>
+                    <span>دقت</span>
+                    <span>خلاقیت</span>
+                </div>
+            </div>
+
+            <div class="hero-floating-label">
+                <span class="floating-label-icon">3D</span>
+
+                <div>
+                    <strong>فراتر از یک ایده</strong>
+                    <span>ساخته‌شده برای کاربردهای واقعی</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+<section class="section categories-section">
+    <div class="container">
+
+        <div class="section-heading">
+            <div class="section-heading-content">
+                <span class="section-label">دسته‌بندی‌ها</span>
+
+                <h2 class="section-title">
+                    محصولات را دسته‌بندی‌شده ببینید
+                </h2>
+
+                <p class="section-description">
+                    دسته‌بندی موردنظرتان را انتخاب کنید و محصولات مرتبط
+                    را راحت‌تر پیدا کنید.
+                </p>
+            </div>
+
+            <a href="{% url 'catalog:product_list' %}" class="text-link">
+                همه محصولات
+                <span aria-hidden="true">←</span>
+            </a>
+        </div>
+
+        {% if categories %}
+            <div class="category-grid">
+                {% for category in categories %}
+                    <a
+                        href="{% url 'catalog:product_list' %}?category={{ category.slug|urlencode }}"
+                        class="category-card"
+                    >
+                        <span class="category-card-number">
+                            {{ forloop.counter|stringformat:"02d" }}
+                        </span>
+
+                        <h3>{{ category.name }}</h3>
+
+                        {% if category.description %}
+                            <p>{{ category.description|truncatewords:12 }}</p>
+                        {% else %}
+                            <p>مشاهده محصولات این دسته‌بندی</p>
+                        {% endif %}
+
+                        <span class="category-card-arrow" aria-hidden="true">
+                            ←
+                        </span>
+                    </a>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <h2>دسته‌بندی‌ها به‌زودی نمایش داده می‌شوند</h2>
+                <p>
+                    برای نمایش دسته‌بندی‌ها، ابتدا از پنل مدیریت
+                    یک دسته‌بندی فعال ایجاد کنید و محصول فعال به آن اختصاص دهید.
+                </p>
+            </div>
+        {% endif %}
+
+    </div>
+</section>
+
+
+<section class="section featured-section">
+    <div class="container">
+
+        <div class="section-heading">
+            <div class="section-heading-content">
+                <span class="section-label">محصولات منتخب</span>
+
+                <h2 class="section-title">
+                    نگاهی به محصولات Aras 3D
+                </h2>
+
+                <p class="section-description">
+                    مشخصات، تصاویر و توضیحات هر محصول را مشاهده کنید
+                    و برای دریافت اطلاعات بیشتر با ما ارتباط بگیرید.
+                </p>
+            </div>
+
+            <a href="{% url 'catalog:product_list' %}" class="text-link">
+                مشاهده همه محصولات
+                <span aria-hidden="true">←</span>
+            </a>
+        </div>
+
+        {% if featured_products %}
+            <div class="product-grid">
+
+                {% for product in featured_products %}
+                    <article class="product-card">
+
+                        <a
+                            href="{{ product.get_absolute_url }}"
+                            class="product-card-image"
+                            aria-label="مشاهده {{ product.name }}"
+                        >
+                            {% with first_image=product.images.all|first %}
+                                {% if first_image %}
+                                    <img
+                                        src="{{ first_image.image.url }}"
+                                        alt="{{ first_image.alt_text|default:product.name }}"
+                                        loading="lazy"
+                                    >
+                                {% else %}
+                                    <div class="product-image-placeholder">
+                                        <span>ARAS 3D</span>
+                                        <span>تصویر محصول</span>
+                                    </div>
+                                {% endif %}
+                            {% endwith %}
+                        </a>
+
+                        <div class="product-card-content">
+
+                            <span class="product-card-category">
+                                {{ product.category.name }}
+                            </span>
+
+                            <h3 class="product-card-title">
+                                <a href="{{ product.get_absolute_url }}">
+                                    {{ product.name }}
+                                </a>
+                            </h3>
+
+                            <p class="product-card-description">
+                                {{ product.short_description|default:product.description|truncatewords:18 }}
+                            </p>
+
+                            <div class="product-card-footer">
+                                <a
+                                    href="{{ product.get_absolute_url }}"
+                                    class="text-link"
+                                >
+                                    جزئیات محصول
+                                    <span aria-hidden="true">←</span>
+                                </a>
+                            </div>
+
+                        </div>
+                    </article>
+                {% endfor %}
+
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <h2>محصولات منتخب هنوز ثبت نشده‌اند</h2>
+                <p>
+                    از پنل مدیریت جنگو، یک محصول ایجاد کنید،
+                    گزینه نمایش در سایت را فعال کنید و آن را به‌عنوان
+                    محصول منتخب علامت بزنید.
+                </p>
+            </div>
+        {% endif %}
+
+    </div>
+</section>
+
+
+<section class="section benefits-section">
+    <div class="container">
+
+        <div class="section-heading">
+            <div class="section-heading-content">
+                <span class="section-label">چرا چاپ سه‌بعدی؟</span>
+
+                <h2 class="section-title">
+                    انعطاف‌پذیری در طراحی و تولید
+                </h2>
+
+                <p class="section-description">
+                    چاپ سه‌بعدی امکان تولید طرح‌های متنوع و ساخت قطعات
+                    متناسب با نیازهای گوناگون را فراهم می‌کند.
+                </p>
+            </div>
+        </div>
+
+        <div class="benefits-grid">
+
+            <article class="benefit-card">
+                <span class="benefit-number">01</span>
+
+                <h3>طراحی خلاقانه</h3>
+
+                <p>
+                    امکان ساخت طرح‌های متنوع و شکل‌های پیچیده
+                    متناسب با کاربرد موردنظر.
+                </p>
+            </article>
+
+            <article class="benefit-card">
+                <span class="benefit-number">02</span>
+
+                <h3>تنوع محصولات</h3>
+
+                <p>
+                    تولید محصولات مختلف با توجه به نوع کاربرد،
+                    ابعاد و مواد مصرفی.
+                </p>
+            </article>
+
+            <article class="benefit-card">
+                <span class="benefit-number">03</span>
+
+                <h3>دسترسی به مشخصات</h3>
+
+                <p>
+                    مشاهده تصاویر و اطلاعات فنی محصولات پیش از
+                    برقراری ارتباط برای سفارش.
+                </p>
+            </article>
+
+        </div>
+    </div>
+</section>
+
+
+<section class="contact-banner">
+    <div class="container contact-banner-container">
+
+        <div>
+            <span class="section-label">ارتباط با Aras 3D</span>
+
+            <h2>دنبال محصول خاصی هستید؟</h2>
+
+            <p>
+                برای دریافت اطلاعات بیشتر درباره محصولات و امکان
+                سفارش، با ما در ارتباط باشید.
+            </p>
+        </div>
+
+        <a href="{% url 'catalog:contact' %}" class="button button-primary">
+            تماس با ما
+        </a>
+
+    </div>
+</section>
+
+{% endblock %}

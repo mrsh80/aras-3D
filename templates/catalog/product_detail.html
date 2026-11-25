@@ -1,0 +1,286 @@
+{% extends "base.html" %}
+
+{% block title %}{{ product.name }} | Aras 3D{% endblock %}
+
+{% block content %}
+
+<!-- نوار معرفی صفحه -->
+<section class="page-banner product-detail-banner">
+    <div class="container">
+
+        <nav class="breadcrumb" aria-label="مسیر صفحه">
+            <a href="{% url 'catalog:home' %}">صفحه اصلی</a>
+            <span aria-hidden="true">/</span>
+            <a href="{% url 'catalog:product_list' %}">محصولات</a>
+            <span aria-hidden="true">/</span>
+            <span>{{ product.name }}</span>
+        </nav>
+
+        <span class="section-label">معرفی محصول</span>
+
+        <h1>{{ product.name }}</h1>
+
+        {% if product.short_description %}
+            <p>{{ product.short_description }}</p>
+        {% endif %}
+
+    </div>
+</section>
+
+
+<!-- اطلاعات اصلی محصول -->
+<section class="section product-detail-section">
+    <div class="container">
+
+        <div class="product-detail-grid">
+
+            <!-- گالری تصاویر محصول -->
+            <div class="product-gallery">
+
+                {% with images=product.images.all %}
+
+                    <!-- تصویر اصلی -->
+                    <div class="product-main-image">
+
+                        {% if images %}
+                            <img
+                                src="{{ images.0.image.url }}"
+                                alt="{{ images.0.alt_text|default:product.name }}"
+                                id="main-product-image"
+                            >
+                        {% else %}
+                            <div class="product-image-placeholder">
+                                <span>ARAS 3D</span>
+                                <span>تصویر محصول موجود نیست</span>
+                            </div>
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- تصاویر کوچک؛ فقط اگر بیش از یک تصویر وجود داشته باشد -->
+                    {% if images|length > 1 %}
+
+                        <div
+                            class="product-thumbnails"
+                            aria-label="تصاویر دیگر محصول"
+                        >
+
+                            {% for image in images %}
+
+                                {% if not forloop.first %}
+
+                                    <button
+                                        type="button"
+                                        class="product-thumbnail"
+                                        data-image-url="{{ image.image.url }}"
+                                        data-image-alt="{{ image.alt_text|default:product.name }}"
+                                        aria-label="نمایش تصویر {{ forloop.counter }} محصول"
+                                        aria-pressed="false"
+                                    >
+
+                                        <img
+                                            src="{{ image.image.url }}"
+                                            alt=""
+                                            loading="lazy"
+                                        >
+
+                                    </button>
+
+                                {% endif %}
+
+                            {% endfor %}
+
+                        </div>
+
+                    {% endif %}
+
+                {% endwith %}
+
+            </div>
+
+
+            <!-- توضیحات و مشخصات محصول -->
+            <div class="product-detail-content">
+
+                <div class="product-detail-category">
+                    <span>دسته‌بندی:</span>
+
+                    <a href="{% url 'catalog:product_list' %}?category={{ product.category.slug|urlencode }}">
+                        {{ product.category.name }}
+                    </a>
+                </div>
+
+
+                <h2 class="product-detail-title">
+                    {{ product.name }}
+                </h2>
+
+
+                {% if product.short_description %}
+                    <p class="product-detail-summary">
+                        {{ product.short_description }}
+                    </p>
+                {% endif %}
+
+
+                <!-- توضیحات کامل -->
+                <div class="product-detail-description">
+
+                    <h3>درباره محصول</h3>
+
+                    <p>{{ product.description|linebreaksbr }}</p>
+
+                </div>
+
+
+                <!-- مشخصات فنی -->
+                <div class="product-specifications">
+
+                    <h3>مشخصات محصول</h3>
+
+                    <dl class="specification-list">
+
+                        {% if product.material %}
+                            <div class="specification-item">
+                                <dt>جنس مواد مصرفی</dt>
+                                <dd>{{ product.material }}</dd>
+                            </div>
+                        {% endif %}
+
+
+                        {% if product.dimensions %}
+                            <div class="specification-item">
+                                <dt>ابعاد</dt>
+                                <dd>{{ product.dimensions }}</dd>
+                            </div>
+                        {% endif %}
+
+
+                        {% if product.color %}
+                            <div class="specification-item">
+                                <dt>رنگ</dt>
+                                <dd>{{ product.color }}</dd>
+                            </div>
+                        {% endif %}
+
+                    </dl>
+
+                </div>
+
+
+                <!-- دعوت به ارتباط -->
+                <div class="product-contact-box">
+
+                    <h3>درباره این محصول سؤال دارید؟</h3>
+
+                    <p>
+                        برای اطلاع از جزئیات بیشتر و امکان ثبت سفارش،
+                        با ما در ارتباط باشید.
+                    </p>
+
+                    <a
+                        href="{% url 'catalog:contact' %}"
+                        class="button button-primary"
+                    >
+                        ارتباط با ما
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+
+<!-- اطلاعات تکمیلی -->
+<section class="section product-information-section">
+    <div class="container">
+
+        <div class="section-heading">
+
+            <div class="section-heading-content">
+
+                <span class="section-label">اطلاعات بیشتر</span>
+
+                <h2 class="section-title">
+                    آشنایی با {{ product.name }}
+                </h2>
+
+                <p class="section-description">
+                    در Aras 3D تلاش می‌کنیم اطلاعات محصولات را
+                    به‌شکلی شفاف و کاربردی در اختیار شما قرار دهیم.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="product-information-card">
+
+            <p>
+                برای انتخاب بهتر، مشخصات و تصاویر محصول را بررسی کنید.
+                اگر درباره جنس، ابعاد، رنگ یا امکان تولید محصول
+                در اندازه‌های دیگر پرسشی دارید، از طریق صفحه تماس
+                با ما پیام بفرستید.
+            </p>
+
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}
+
+
+{% block extra_js %}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const mainImage = document.getElementById("main-product-image");
+
+    const thumbnails = document.querySelectorAll(".product-thumbnail");
+
+    if (!mainImage || thumbnails.length === 0) {
+        return;
+    }
+
+    thumbnails.forEach(function (thumbnail) {
+
+        thumbnail.addEventListener("click", function () {
+
+            const imageUrl = thumbnail.dataset.imageUrl;
+
+            const imageAlt = thumbnail.dataset.imageAlt;
+
+            if (!imageUrl) {
+                return;
+            }
+
+            mainImage.src = imageUrl;
+
+            mainImage.alt = imageAlt || "";
+
+            thumbnails.forEach(function (item) {
+
+                item.classList.remove("active");
+
+                item.setAttribute("aria-pressed", "false");
+
+            });
+
+            thumbnail.classList.add("active");
+
+            thumbnail.setAttribute("aria-pressed", "true");
+
+        });
+
+    });
+
+});
+</script>
+{% endblock %}

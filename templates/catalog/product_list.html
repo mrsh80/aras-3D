@@ -1,0 +1,228 @@
+{% extends "base.html" %}
+
+{% block title %}
+محصولات | Aras 3D
+{% endblock %}
+
+{% block content %}
+
+<section class="page-banner">
+    <div class="container">
+        <span class="section-label">کاتالوگ محصولات</span>
+
+        <h1>محصولات Aras 3D</h1>
+
+        <p>
+            محصولات را مشاهده کنید، مشخصات آن‌ها را بررسی کنید
+            و برای دریافت اطلاعات بیشتر با ما ارتباط بگیرید.
+        </p>
+    </div>
+</section>
+
+
+<section class="section product-list-section">
+    <div class="container">
+
+        <div class="product-filter">
+
+            <form
+                method="get"
+                action="{% url 'catalog:product_list' %}"
+                class="product-search-form"
+            >
+                <div class="form-group search-field">
+                    <label for="search-query" class="form-label">
+                        جست‌وجوی محصول
+                    </label>
+
+                    <input
+                        id="search-query"
+                        class="form-control"
+                        type="search"
+                        name="q"
+                        value="{{ query }}"
+                        placeholder="نام محصول، توضیحات یا جنس..."
+                    >
+                </div>
+
+                {% if selected_category %}
+                    <input
+                        type="hidden"
+                        name="category"
+                        value="{{ selected_category }}"
+                    >
+                {% endif %}
+
+                <button type="submit" class="button button-primary">
+                    جست‌وجو
+                </button>
+            </form>
+
+
+            <div class="category-filter">
+                <span class="form-label">دسته‌بندی:</span>
+
+                <a
+                    href="{% url 'catalog:product_list' %}{% if query %}?q={{ query|urlencode }}{% endif %}"
+                    class="category-filter-link {% if not selected_category %}active{% endif %}"
+                >
+                    همه محصولات
+                </a>
+
+                {% for category in categories %}
+                    <a
+                        href="{% url 'catalog:product_list' %}?category={{ category.slug|urlencode }}{% if query %}&q={{ query|urlencode }}{% endif %}"
+                        class="category-filter-link {% if selected_category == category.slug %}active{% endif %}"
+                    >
+                        {{ category.name }}
+                    </a>
+                {% endfor %}
+            </div>
+
+        </div>
+
+
+        <div class="product-results-heading">
+            <h2 class="section-title">
+                {% if query %}
+                    نتایج جست‌وجو
+                {% elif selected_category %}
+                    محصولات دسته‌بندی انتخاب‌شده
+                {% else %}
+                    همه محصولات
+                {% endif %}
+            </h2>
+
+            <span class="results-count">
+                {{ page_obj.paginator.count }} محصول
+            </span>
+        </div>
+
+
+        {% if products %}
+            <div class="product-grid">
+
+                {% for product in products %}
+                    <article class="product-card">
+
+                        <a
+                            href="{{ product.get_absolute_url }}"
+                            class="product-card-image"
+                            aria-label="مشاهده {{ product.name }}"
+                        >
+                            {% with first_image=product.images.all|first %}
+                                {% if first_image %}
+                                    <img
+                                        src="{{ first_image.image.url }}"
+                                        alt="{{ first_image.alt_text|default:product.name }}"
+                                        loading="lazy"
+                                    >
+                                {% else %}
+                                    <div class="product-image-placeholder">
+                                        <span>ARAS 3D</span>
+                                        <span>تصویر محصول</span>
+                                    </div>
+                                {% endif %}
+                            {% endwith %}
+                        </a>
+
+                        <div class="product-card-content">
+
+                            <span class="product-card-category">
+                                {{ product.category.name }}
+                            </span>
+
+                            <h3 class="product-card-title">
+                                <a href="{{ product.get_absolute_url }}">
+                                    {{ product.name }}
+                                </a>
+                            </h3>
+
+                            <p class="product-card-description">
+                                {{ product.short_description|default:product.description|truncatewords:18 }}
+                            </p>
+
+                            <div class="product-card-footer">
+                                <a
+                                    href="{{ product.get_absolute_url }}"
+                                    class="text-link"
+                                >
+                                    مشاهده مشخصات
+                                    <span aria-hidden="true">←</span>
+                                </a>
+                            </div>
+
+                        </div>
+                    </article>
+                {% endfor %}
+
+            </div>
+
+
+            {% if page_obj.paginator.num_pages > 1 %}
+                <nav class="pagination" aria-label="صفحه‌بندی محصولات">
+
+                    {% if page_obj.has_previous %}
+                        <a
+                            href="?{% if query %}q={{ query|urlencode }}&amp;{% endif %}{% if selected_category %}category={{ selected_category|urlencode }}&amp;{% endif %}page={{ page_obj.previous_page_number }}"
+                            aria-label="صفحه قبلی"
+                        >
+                            قبلی
+                        </a>
+                    {% endif %}
+
+                    {% for page_number in page_obj.paginator.page_range %}
+                        {% if page_number == page_obj.number %}
+                            <span class="current" aria-current="page">
+                                {{ page_number }}
+                            </span>
+                        {% else %}
+                            <a
+                                href="?{% if query %}q={{ query|urlencode }}&amp;{% endif %}{% if selected_category %}category={{ selected_category|urlencode }}&amp;{% endif %}page={{ page_number }}"
+                                aria-label="صفحه {{ page_number }}"
+                            >
+                                {{ page_number }}
+                            </a>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if page_obj.has_next %}
+                        <a
+                            href="?{% if query %}q={{ query|urlencode }}&amp;{% endif %}{% if selected_category %}category={{ selected_category|urlencode }}&amp;{% endif %}page={{ page_obj.next_page_number }}"
+                            aria-label="صفحه بعدی"
+                        >
+                            بعدی
+                        </a>
+                    {% endif %}
+
+                </nav>
+            {% endif %}
+
+        {% else %}
+            <div class="empty-state">
+                <h2>محصولی پیدا نشد</h2>
+
+                <p>
+                    {% if query %}
+                        محصولی مطابق عبارت جست‌وجوی شما پیدا نشد.
+                    {% else %}
+                        در این دسته‌بندی هنوز محصول فعالی ثبت نشده است.
+                    {% endif %}
+                </p>
+
+                {% if query or selected_category %}
+                    <a
+                        href="{% url 'catalog:product_list' %}"
+                        class="button button-outline"
+                        style="margin-top: 20px;"
+                    >
+                        مشاهده همه محصولات
+                    </a>
+                {% endif %}
+            </div>
+        {% endif %}
+
+    </div>
+</section>
+
+{% endblock %}
