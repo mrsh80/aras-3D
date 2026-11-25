@@ -122,6 +122,27 @@ python manage.py runserver
 
 Open `http://127.0.0.1:8000/` in your browser.
 
+## Screenshots
+
+### Homepage
+![Homepage](docs/screenshots/home.png)
+![Homepage - Additional Section](docs/screenshots/home2.png)
+
+### Product Catalog
+![Product Catalog](docs/screenshots/products.png)
+
+### Product Details
+![Product Details](docs/screenshots/products_detail.png)
+
+### About
+![About](docs/screenshots/about.png)
+![About - Additional Section](docs/screenshots/about2.png)
+
+### Contact
+![Contact](docs/screenshots/contact.png)
+![Contact - Additional Section](docs/screenshots/contact2.png)
+
+
 ## Main Routes
 
 | Route | Description |
